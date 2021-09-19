@@ -16,12 +16,13 @@ class CryptoConverterService
         $this->cryptoConverterLogger = $cryptoConverterLogger;
     }
 
-    public function convert(string $base, float $amount, string $crypto): ?string
+    public function convert(string $base, float $amount, string $crypto): float
     {
-        $req_url = $_ENV['CONVERTER_API'] . '?from=' . $base . '&to=' . $crypto;
-        $response_json = file_get_contents($req_url);
-        if(false !== $response_json) {
-            $response = json_decode($response_json);
+        $reqUrl = $_ENV['CONVERTER_API'] . '?from=' . $base . '&to=' . $crypto;
+
+        $responseJson = file_get_contents($reqUrl);
+        if (false !== $responseJson) {
+            $response = json_decode($responseJson);
             if ($response->result) {
                 $result = (float)$response->result * $amount;
                 $this->cryptoConverterLogger->log($base, $crypto, $amount, $result);
@@ -29,8 +30,8 @@ class CryptoConverterService
             } else {
                 throw new CryptoDoesNotExistException();
             }
+        } else {
+            throw new \RuntimeException('Unexpected API result');
         }
-
-        return null;
     }
 }

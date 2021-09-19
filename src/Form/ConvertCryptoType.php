@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class ConvertCryptoType extends AbstractType
 {
@@ -16,7 +17,8 @@ class ConvertCryptoType extends AbstractType
         $builder
             ->add('amount', NumberType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Amount cannot be empty'])
+                    new NotBlank(['message' => 'Amount cannot be empty']),
+                    new Range(['min' => 0])
                 ]
             ])
             ->add('currency', TextType::class, [

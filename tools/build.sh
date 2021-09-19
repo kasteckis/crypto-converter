@@ -1,5 +1,8 @@
 #!/bin/bash
 
-# Add custom build commands here such as - composer install, npm run build etc.
 
+composer install
+bin/console d:s:u --force
+yarn install
+yarn build
 echo "Project was successfully built!"

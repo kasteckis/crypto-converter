@@ -36,7 +36,8 @@ class CryptoConverterController extends AbstractController
         if (!$form->isValid()) {
             return $this->json([
                 'success' => false,
-                'text' => $form->getErrors(true)->current()->getMessage()
+                'text' => $form->getErrors(true)->current()->getMessage(),
+                'showAvailableCryptosText' => false
             ]);
         }
 
@@ -45,7 +46,15 @@ class CryptoConverterController extends AbstractController
         } catch (CryptoDoesNotExistException $exception) {
             return $this->json([
                 'success' => false,
-                'text' => 'Crypto does not exist'
+                'text' => 'Crypto does not exist',
+                'showAvailableCryptosText' => true
+            ]);
+        }
+        catch (\Exception $exception) {
+            return $this->json([
+                'success' => false,
+                'text' => 'Crypto Server failure',
+                'showAvailableCryptosText' => false
             ]);
         }
 
