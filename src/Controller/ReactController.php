@@ -15,4 +15,12 @@ class ReactController extends AbstractController
     {
         return $this->render('react/index.html.twig');
     }
+
+    /**
+     * @Route("/abc", name="qweeqw")
+     */
+    public function index2(): Response
+    {
+        return $this->json('aa');
+    }
 }
