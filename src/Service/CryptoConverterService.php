@@ -18,8 +18,6 @@ class CryptoConverterService
 
     public function convert(string $base, float $amount, string $crypto): ?string
     {
-        $base = strtoupper($base);
-        $crypto = strtoupper($crypto);
         $req_url = $_ENV['CONVERTER_API'] . '?from=' . $base . '&to=' . $crypto;
         $response_json = file_get_contents($req_url);
         if(false !== $response_json) {

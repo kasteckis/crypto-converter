@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\CryptoDoesNotExistException;
 use App\Form\ConvertCryptoType;
+use App\Helper\CryptoFormDataHelper;
 use App\Service\CryptoConverterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class CryptoConverterController extends AbstractController
      */
     public function convert(Request $request): Response
     {
-        $convertData = json_decode($request->getContent(), true);
+        $convertData = CryptoFormDataHelper::toUpperCase(json_decode($request->getContent(), true));
 
         $form = $this->createForm(ConvertCryptoType::class);
         $form->submit($convertData);
@@ -50,7 +51,7 @@ class CryptoConverterController extends AbstractController
 
         return $this->json([
             'success' => true,
-            'converted' => $convertedAmount
+            'converted' => $convertData['amount'] . ' ' . $convertData['currency'] . ' is ' . $convertedAmount . ' ' . $convertData['crypto']
         ]);
     }
 }

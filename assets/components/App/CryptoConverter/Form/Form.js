@@ -6,7 +6,8 @@ class Form extends React.Component {
 
     state = {
         currency: 'eur',
-        errorText: ''
+        errorText: '',
+        resultText: ''
     }
 
     constructor(props) {
@@ -19,24 +20,28 @@ class Form extends React.Component {
     submitForm(e) {
         e.preventDefault();
 
+        this.setState({errorText: '', resultText: ''});
+
         if (this.amountRef.current.value.length === 0) {
-            this.setState({errorText: 'Amount field is empty'})
+            this.setState({errorText: 'Amount field is empty'});
             return;
         }
 
         if (this.cryptoRef.current.value.length === 0) {
-            this.setState({errorText: 'Crypto field is empty'})
+            this.setState({errorText: 'Crypto field is empty'});
             return;
         }
-
-        this.setState({errorText: ''})
 
         axios.post('/api/convert', {
             amount: this.amountRef.current.value,
             currency: this.state.currency,
             crypto: this.cryptoRef.current.value
         }).then(response => {
-            console.log(response.data)
+            if (response.data.success) {
+                this.setState({resultText: response.data.converted});
+            } else {
+                this.setState({errorText: response.data.text});
+            }
         }).catch(error => {
             console.log(error);
         })
@@ -53,6 +58,11 @@ class Form extends React.Component {
             <React.Fragment>
                 {this.state.errorText.length > 0 ?
                     <Alert severity="error">{this.state.errorText}</Alert>
+                    :
+                    ''
+                }
+                {this.state.resultText.length > 0 ?
+                    <Alert severity="success">{this.state.resultText}</Alert>
                     :
                     ''
                 }
