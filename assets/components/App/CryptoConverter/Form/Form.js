@@ -9,7 +9,8 @@ class Form extends React.Component {
         currency: 'eur',
         errorText: '',
         resultText: '',
-        showAvailableCryptosText: false
+        showAvailableCryptosText: false,
+        calculateBtnDisable: false
     }
 
     constructor(props) {
@@ -22,15 +23,15 @@ class Form extends React.Component {
     submitForm(e) {
         e.preventDefault();
 
-        this.setState({errorText: '', resultText: '', showAvailableCryptosText: false});
+        this.setState({errorText: '', resultText: '', showAvailableCryptosText: false, calculateBtnDisable: true});
 
         if (this.amountRef.current.value.length === 0) {
-            this.setState({errorText: 'Amount field is empty'});
+            this.setState({errorText: 'Amount field is empty', calculateBtnDisable: false});
             return;
         }
 
         if (this.cryptoRef.current.value.length === 0) {
-            this.setState({errorText: 'Crypto field is empty'});
+            this.setState({errorText: 'Crypto field is empty', calculateBtnDisable: false});
             return;
         }
 
@@ -40,12 +41,12 @@ class Form extends React.Component {
             crypto: this.cryptoRef.current.value
         }).then(response => {
             if (response.data.success) {
-                this.setState({resultText: response.data.converted});
+                this.setState({resultText: response.data.converted, calculateBtnDisable: false});
             } else {
                 if (response.data.showAvailableCryptosText) {
-                    this.setState({errorText: response.data.text, showAvailableCryptosText: true});
+                    this.setState({errorText: response.data.text, showAvailableCryptosText: true, calculateBtnDisable: false});
                 } else {
-                    this.setState({errorText: response.data.text});
+                    this.setState({errorText: response.data.text, calculateBtnDisable: false});
                 }
             }
         }).catch(error => {
@@ -118,7 +119,12 @@ class Form extends React.Component {
                             <Input inputRef={this.cryptoRef} />
                             <FormHelperText>Such as BTC, CLP, COP or etc.</FormHelperText>
                         </FormControl><br />
-                        <Button variant="contained" color="primary" style={{marginTop: 10}} onClick={(event) => this.submitForm(event)}>Calculate</Button>
+                        <Button disabled={this.state.calculateBtnDisable} variant="contained"
+                                color="primary" style={{marginTop: 10}}
+                                onClick={(event) => this.submitForm(event)}
+                        >
+                            Calculate
+                        </Button>
                     </form>
                 </Grid>
             </React.Fragment>
