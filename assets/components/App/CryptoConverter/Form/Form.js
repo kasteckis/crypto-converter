@@ -1,6 +1,7 @@
 import React from "react";
 import {Alert, Button, FormControl, FormHelperText, Grid, Input, InputLabel, MenuItem, Select} from "@mui/material";
 import axios from "axios";
+import AvailableCryptoDialog from "./AvailableCryptoDialog/AvailableCryptoDialog";
 
 class Form extends React.Component {
 
@@ -82,10 +83,7 @@ class Form extends React.Component {
                     }
                     {this.state.showAvailableCryptosText ?
                         <Alert severity="error">
-                            <a href="#"
-                               onClick={(event) => this.showAvailableCryptosHandler(event)}>Click here
-                            </a>
-                            <span> to see the list of all supported currencies on this site</span>
+                            <AvailableCryptoDialog />
                         </Alert>
                         :
                         ''

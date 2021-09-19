@@ -24,6 +24,28 @@ class CryptoConverterController extends AbstractController
     }
 
     /**
+     * @Route("/api/crypto", name="api_available_crypto", methods={"GET"})
+     */
+    public function availableCrypto(Request $request): Response
+    {
+        try {
+            $availableCrypto = $this->cryptoConverterService->getAvailableCrypto();
+        }
+        catch (\Exception $exception) {
+            return $this->json([
+                'success' => false,
+                'text' => 'Crypto Server failure',
+                'showAvailableCryptosText' => false
+            ]);
+        }
+
+        return $this->json([
+            'success' => true,
+            'cryptos' => implode(', ', $availableCrypto)
+        ]);
+    }
+
+    /**
      * @Route("/api/convert", name="api_convert_post", methods={"POST"})
      */
     public function convert(Request $request): Response

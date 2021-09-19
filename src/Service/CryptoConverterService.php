@@ -16,6 +16,11 @@ class CryptoConverterService
         $this->cryptoConverterLogger = $cryptoConverterLogger;
     }
 
+    public function getAvailableCrypto(): array
+    {
+        return ['BTC', 'AHG'];
+    }
+
     public function convert(string $base, float $amount, string $crypto): float
     {
         $reqUrl = $_ENV['CONVERTER_API'] . '?from=' . $base . '&to=' . $crypto;
