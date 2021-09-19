@@ -1,0 +1,13 @@
+name: Docker compose workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install back dependencies via composer
+        run: composer install
+      - name: Run PHPSTAN
+        run: chmod +x ./tools/phpstan.sh && ./tools/phpstan.sh
