@@ -34,8 +34,7 @@ class CryptoConverterController extends AbstractController
         catch (\Exception $exception) {
             return $this->json([
                 'success' => false,
-                'text' => 'Crypto Server failure',
-                'showAvailableCryptosText' => false
+                'cryptos' => 'Crypto Server failure'
             ]);
         }
 
