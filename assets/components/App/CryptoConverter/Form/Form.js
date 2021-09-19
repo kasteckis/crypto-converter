@@ -72,7 +72,7 @@ class Form extends React.Component {
                     <FormControl>
                         <InputLabel>Crypto</InputLabel>
                         <Input inputRef={this.cryptoRef} />
-                        <FormHelperText>Such as BTC, ETH, ADA or etc.</FormHelperText>
+                        <FormHelperText>Such as BTC, CLP, COP or etc.</FormHelperText>
                     </FormControl>
                     <Button onClick={(event) => this.submitForm(event)}>Calculate</Button>
                 </form>
